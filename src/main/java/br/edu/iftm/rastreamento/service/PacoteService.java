@@ -51,4 +51,14 @@ public class PacoteService {
         Pacote pacote = pacoteRepository.findById(id).get();
         pacoteRepository.delete(pacote);
     }
+
+    // Método para buscar pacotes por status
+    public List<Pacote> getPacotesByStatus(String status) {
+        return pacoteRepository.findByStatus(status);
+    }
+
+    // Método para buscar pacotes por destinatário
+    public List<Pacote> getPacotesByDestinatario(String destinatario) {
+        return pacoteRepository.findByDestinatario(destinatario);
+    }
 }
