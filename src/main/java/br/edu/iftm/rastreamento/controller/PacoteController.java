@@ -16,9 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 import br.edu.iftm.rastreamento.model.Pacote;
 import br.edu.iftm.rastreamento.service.PacoteService;
 import br.edu.iftm.rastreamento.service.exceptions.NaoAcheiException;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
 @RequestMapping("/pacotes")
+@Api(value = "Pacote Controller", tags = {"Pacotes"})
 public class PacoteController {
 
 	@Autowired
@@ -30,6 +35,7 @@ public class PacoteController {
 	}
 
 	@PostMapping
+	 @Operation(summary = "Remova o rastreamento da requisição", description = "Remova o rastreamento da requisição")
 	public Pacote createPacote(@RequestBody Pacote pacote) {
 		return pacoteService.createPacote(pacote);
 	}
@@ -44,7 +50,9 @@ public class PacoteController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Pacote> updatePacote(@PathVariable Long id, @RequestBody Pacote pacoteDetails) {
+    public ResponseEntity<Pacote> updatePacote(
+            @ApiParam(value = "ID do pacote a ser atualizado", required = true) @PathVariable Long id,
+            @ApiParam(value = "Dados atualizados do pacote", required = true) @RequestBody Pacote pacoteDetails) {
         Pacote pacote = pacoteService.getPacoteById(id);
         if (pacote == null) {
             throw new NaoAcheiException("Pacote não encontrado com o ID: " + id);
